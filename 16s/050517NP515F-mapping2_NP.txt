@@ -1,4 +1,4 @@
-#SampleID	BarcodeSequence	LinkerPrimerSequence	BarcodeName	ProjectName	Description	SampleName	VegZone	Disturbance
+SampleID	BarcodeSequence	LinkerPrimerSequence	BarcodeName	ProjectName	Description	SampleName	VegZone	Disturbance
 1	GAGAGTGT	GTGCCAGCMGCCGCGGTAA	515Fbar1	050517NP515F	1	T-East Undisturbed	Tarbush	Undisturbed
 2	GAGATCAG	GTGCCAGCMGCCGCGGTAA	515Fbar2	050517NP515F	2	T-East Disturbed	Tarbush	Disturbed
 3	GAGATCTC	GTGCCAGCMGCCGCGGTAA	515Fbar3	050517NP515F	3	T- West Undisturbed	Tarbush	Undisturbed
