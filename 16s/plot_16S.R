@@ -15,7 +15,7 @@ plot_abundance = function(physeq, ylabn = "",
   mphyseq = psmelt(physeq)
   mphyseq <- subset(mphyseq, Abundance > 0)
   ggplot(data = mphyseq,
-         mapping = aes_string(x = "Crust_type", y = "Abundance",
+         mapping = aes_string(x = "VegZone", y = "Abundance",
                               color = Color, fill = Color)) +
     geom_violin(fill = NA) +
     geom_point(size = 1, alpha = 0.3,
@@ -78,7 +78,7 @@ ggplot(prevdf1, aes(TotalAbundance, Prevalence / nsamples(ps1),color=Phylum)) +
   scale_x_log10() +  xlab("Total Abundance") + ylab("Prevalence [Frac. Samples]") +
   facet_wrap(~Phylum) + theme(legend.position="none")
 
-prevalenceThreshold = 0.05 * nsamples(ps1)
+prevalenceThreshold = 0.10 * nsamples(ps1)
 prevalenceThreshold
 
 # Execute prevalence filter, using `prune_taxa()` function
@@ -190,7 +190,7 @@ plot_richness(playasamp,measures=c("Chao1","Shannon"),color="Disturbance")
 creosamp <- subset_samples(GP,VegZone=="Creosote")
 creorich <- estimate_richness(creosamp)
 summary(creorich)
-plot_richness(creoamp,measures=c("Chao1","Shannon"),color="Disturbance")
+plot_richness(creosamp,measures=c("Chao1","Shannon"),color="Disturbance")
 
 
 plot_richness(GP, x="VegZone", measures=c("Chao1","Shannon","Simpson"),color="Disturbance")
@@ -202,11 +202,11 @@ GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creo
 p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples PCoA")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples PCoA")
 
 GP.ord <- ordinate(GP, "NMDS", "bray")
 GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creosote"))
@@ -214,11 +214,11 @@ GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creo
 p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples NMDS")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples NMDS")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples NMDS")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples NMDS")
 
 
 GP.ord <- ordinate(GP, "PCoA", "unifrac",weighted=TRUE)
@@ -227,8 +227,8 @@ GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creo
 p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA Unifrac")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples PCoA Unifrac")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
-p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA Unifrac")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegZone", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegZone)) + geom_point(size=3) + ggtitle("Jornada VegZone Samples PCoA Unifrac")
