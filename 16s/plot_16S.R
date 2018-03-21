@@ -24,23 +24,19 @@ plot_abundance = function(physeq, ylabn = "",
     scale_y_log10()
 }
 
-meta <- read.table("Biocrust_16S_Mapping_file.txt",
+meta <- read.table("050517NP515F-mapping2_NP.txt",
       header=T,sep="\t", row.names=1,
       stringsAsFactors=FALSE)
 head(meta)
-treefile = "BioCrusts2017Bacteria.tree.phy"
+treefile = "Sam1_34a.tree.phy"
 tree = read.tree(treefile)
-otusall <- read.table("16S.otu_table.taxonomy.txt",
+otusall <- read.table("Sam1_34a.otu_table.taxonomy.txt",
                    header=T,sep="\t",row.names=1)
-meta <- meta[which(meta$Crust_type %in% c("LAC","CLC", "Sand")),]
-meta <- meta[which(meta$Site %in% c("GMT","KELSO", "JTNP")),]
-#otus <- otusall[ , which(names(otusall) %in%
-#     c("NPFeb1SF","NPFeb3SF","NPFeb5SF","NPJan7SF","NPJan8SF","PD.11","PD.5",
-#      "NPFeb2SF","NPFeb4SF","NPFeb6SF", "NPJan1SF","NPJan2SF", "NPJan3SF","PD.1",
-#      "PD.7","NP45","NPFeb12","NP.2","N.11"))]
+#meta <- meta[which(meta$Crust_type %in% c("LAC","CLC", "Sand")),]
+#meta <- meta[which(meta$Site %in% c("GMT","KELSO", "JTNP")),]
 
 otus <- otusall[ , -which(names(otusall) %in% c("Taxonomy"))]
-sum(otus)
+summary(otus)
 
 #otus <- head(otus,n=500L)
 otus <- as(as.matrix(otus), "matrix")
@@ -50,7 +46,7 @@ sampleData <- sample_data(meta)
 rownames(sampleData)
 colnames(sampleData)
 
-taxmat <- read.table("BioCrusts2017Bacteria.taxonomy_fix.tab",
+taxmat <- read.table("Sam1_34a.taxonomy.fix.tab",
                      header=T,sep="\t",row.names=1)
 taxmat <- as(as.matrix(taxmat),"matrix")
 TAX = tax_table(taxmat)
@@ -118,8 +114,8 @@ phylum_colors <- c(
 
 pdf("Taxoplot_Bacteria.pdf")
 
-xlabstr = "Crust type"
-ggplot(phylum, aes(x = factor(Crust_type), y = Abundance, fill = Phylum)) +
+xlabstr = "VegZone"
+ggplot(phylum, aes(x = factor(VegZone), y = Abundance, fill = Phylum)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = phylum_colors) +
   # Remove x axis title
@@ -137,7 +133,7 @@ class <- ps3ra %>%
   arrange(Class)                                      # Sort data frame alphabetically by phylum
 
 
-ggplot(class, aes(x = factor(Crust_type), y = Abundance, fill = Class )) +
+ggplot(class, aes(x = factor(VegZone), y = Abundance, fill = Class )) +
   geom_bar(stat = "identity") +
   #scale_fill_brewer(type = "seq", palette = "Paired") +
   #scale_colour_brewer(palette = "Set1") +
@@ -147,11 +143,11 @@ ggplot(class, aes(x = factor(Crust_type), y = Abundance, fill = Class )) +
   xlab(xlabstr) + ylab("Relative Abundance (Class > 2%) \n") +
   ggtitle("Class Composition")
 
-#plot_bar(phylostand, "Phylum", fill="Class",facet_grid=~Crust_type)
-#plot_bar(phylostand, "Phylum", fill="Class",facet_grid=~Site)
+#plot_bar(phylostand, "Phylum", fill="Class",facet_grid=~VegZone)
+#plot_bar(phylostand, "Phylum", fill="Class",facet_grid=~Disturbance)
 
 xlabstr = "Sample"
-ggplot(class, aes(x = Sample, y = Abundance, fill = Class,facet_grid=Crust_type)) +
+ggplot(class, aes(x = Sample, y = Abundance, fill = Class,facet_grid=VegZone)) +
   geom_bar(stat = "identity") +
   #scale_fill_brewer(type = "seq", palette = "Paired") +
   theme( axis.text.x = element_text(angle = 60, hjust = 1)) +
@@ -160,8 +156,8 @@ ggplot(class, aes(x = Sample, y = Abundance, fill = Class,facet_grid=Crust_type)
     xlab(xlabstr) + ylab("Relative Abundance (Class > 2%) \n") +
   ggtitle("Class Composition ")
 
-xlabstr = "Site"
-ggplot(class, aes(x = factor(Site), y = Abundance, fill = Class)) +
+xlabstr = "Disturbance"
+ggplot(class, aes(x = factor(Disturbance), y = Abundance, fill = Class)) +
   geom_bar(stat = "identity") +
    #scale_fill_brewer(type = "seq", palette = "Paired") +
   # Remove x axis title
@@ -171,93 +167,68 @@ ggplot(class, aes(x = factor(Site), y = Abundance, fill = Class)) +
     xlab(xlabstr) + ylab("Relative Abundance (Class > 2%) \n") +
   ggtitle("Class Composition")
 
-xlabstr = "Month"
-ggplot(class, aes(x = factor(Sampling_month), y = Abundance, fill = Class)) +
-  geom_bar(stat = "identity") +
-  #scale_fill_brewer(type = "seq", palette = "Paired") +
-  # Remove x axis title
-  theme( axis.text.x = element_text(angle = 60, hjust = 1)) +
-  #
-  guides(fill = guide_legend(reverse = TRUE, keywidth = 1, keyheight = 1)) +
-  xlab(xlabstr) + ylab("Relative Abundance (Class > 2%) \n") +
-  ggtitle("Class Composition by Month")
-
-xlabstr = "Humidity"
-ggplot(class, aes(x = factor(Humidity), y = Abundance, fill = Class)) +
-  geom_bar(stat = "identity") +
-  #scale_fill_brewer(type = "seq", palette = "Paired") +
-  # Remove x axis title
-  theme( axis.text.x = element_text(angle = 60, hjust = 1)) +
-  #
-  guides(fill = guide_legend(reverse = TRUE, keywidth = 1, keyheight = 1)) +
-  xlab(xlabstr) + ylab("Relative Abundance (Class > 2%) \n") +
-  ggtitle("Class Composition by Humidity")
 
 pdf("PCA_16S.pdf")
 GP = ps3ra
 
-clcsamp <- subset_samples(GP,Crust_type=="CLC")
-clcrich <- estimate_richness(clcsamp)
-summary(clcrich)
-plot_richness(clcsamp,measures=c("Chao1","Shannon"),color="Site")
+tarsamp <- subset_samples(GP,VegZone=="Tarbush")
+tarrich <- estimate_richness(tarsamp)
+summary(tarrich)
+plot_richness(tarsamp,measures=c("Chao1","Shannon"),color="Disturbance")
 
-lacsamp <- subset_samples(GP,Crust_type=="LAC")
-lacrich <- estimate_richness(lacsamp)
-summary(lacrich)
-plot_richness(lacsamp,measures=c("Chao1","Shannon"),color="Site")
+grasssamp <- subset_samples(GP,VegZone=="Grassland")
+grassrich <- estimate_richness(grasssamp)
+summary(grassrich)
+plot_richness(grasssamp,measures=c("Chao1","Shannon"),color="Disturbance")
 
-plot_richness(GP, x="Crust_type", measures=c("Chao1","Shannon","Simpson"),color="Site")
-plot_richness(GP,measures=c("Chao1","Shannon"),color="Site")
+playasamp <- subset_samples(GP,VegZone=="Playa")
+playarich <- estimate_richness(playasamp)
+summary(playarich)
+plot_richness(playasamp,measures=c("Chao1","Shannon"),color="Disturbance")
+
+
+creosamp <- subset_samples(GP,VegZone=="Creosote")
+creorich <- estimate_richness(creosamp)
+summary(creorich)
+plot_richness(creoamp,measures=c("Chao1","Shannon"),color="Disturbance")
+
+
+plot_richness(GP, x="VegZone", measures=c("Chao1","Shannon","Simpson"),color="Disturbance")
+plot_richness(GP,measures=c("Chao1","Shannon"),color="VegZone")
+
 GP.ord <- ordinate(GP, "PCoA", "bray")
-GP.ord$Site = factor(GP.ord$Site,levels=c("KELSO","GMT","CIMA","JTNP"))
+GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creosote"))
 
 p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_point(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples PCoA")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_polygon(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples PCoA")
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA")
 
 GP.ord <- ordinate(GP, "NMDS", "bray")
-GP.ord$Site = factor(GP.ord$Site,levels=c("KELSO","GMT","JTNP"))
-p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa NMDS")
+GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creosote"))
+
+p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_point(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples NMDS") 
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples NMDS")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_polygon(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples NMDS") 
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples NMDS")
 
 
 GP.ord <- ordinate(GP, "PCoA", "unifrac",weighted=TRUE)
-GP.ord$Site = factor(GP.ord$Site,levels=c("KELSO","GMT","JTNP"))
-p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa PCoA Unifrac")
+GP.ord$Site = factor(GP.ord$VegZone,levels=c("Tarbush","Grassland","Playa","Creosote"))
+
+p1 = plot_ordination(GP, GP.ord, type="taxa", color="Phylum", title="taxa")
 p1
 
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_point(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA Unifrac")
 
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_point(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples PCoA Unifrac")
-
-
-p2 = plot_ordination(GP, GP.ord, type="samples", color="Crust_type", shape="Site") 
-p2 + geom_polygon(aes(fill=Crust_type)) + geom_point(size=3) + ggtitle("Crust Samples PCoA Unifrac") 
-
-pdf("16S_test_timeseries.pdf")
-GP <- subset_samples(GP,Sampling_month != "HV.August_2017" & Sampling_month != "August_2016" )
-newIn <- subset_samples(GP,Site=="JTNP" & Crust_type == "CLC")
-newIn.ord <- ordinate(newIn, "PCoA", "bray")
-p3 = plot_ordination(newIn, newIn.ord, type="samples", color="Sampling_month", shape="Rain_event") 
-p3 + geom_point(aes(fill=Sampling_month)) + geom_point(size=3) + ggtitle("CLC Crust Samples PCoA Unifrac") 
-
-newIn <- subset_samples(GP,Site=="JTNP" & Crust_type == "LAC")
-newIn.ord <- ordinate(newIn, "PCoA", "bray")
-p3 = plot_ordination(newIn, newIn.ord, type="samples", color="Sampling_month", shape="Rain_event") 
-p3 + geom_point(aes(fill=Sampling_month)) + geom_point(size=3) + ggtitle("LAC Crust Samples PCoA Unifrac") 
-
-newIn <- subset_samples(GP,Site=="JTNP" & Crust_type == "Sand")
-newIn.ord <- ordinate(newIn, "PCoA", "bray")
-p3 = plot_ordination(newIn, newIn.ord, type="samples", color="Sampling_month", shape="Rain_event") 
-p3 + geom_point(aes(fill=Sampling_month)) + geom_point(size=3) + ggtitle("Sand Crust Samples PCoA Unifrac") 
+p2 = plot_ordination(GP, GP.ord, type="samples", color="VegType", shape="Disturbance") 
+p2 + geom_polygon(aes(fill=VegType)) + geom_point(size=3) + ggtitle("Jornada VegType Samples PCoA Unifrac")
