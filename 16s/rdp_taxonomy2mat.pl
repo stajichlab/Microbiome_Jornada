@@ -4,6 +4,7 @@ use warnings;
 
 my $header = <>;
 my @levels = qw(k p c o f g s);
+my @levels = qw(d p c o f g s);
 print join("\t","",qw(Kingdom Phylum Class Order Family Genus Species)),"\n";
 
 while(<> ) {
