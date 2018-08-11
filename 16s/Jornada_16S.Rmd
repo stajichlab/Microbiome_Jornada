@@ -196,3 +196,17 @@ psDisturbance = plot_ordination(ps.prune, ps.ord, type = "samples", color = "Dis
 print(psDisturbance)
 ```
 
+``` {r CCA and NMDS}
+
+ps.ord <- ordinate(ps.prune, "NMDS", distance="bray")
+psVegZone = plot_ordination(ps.prune, ps.ord, type = "samples", color = "VegZone") + stat_ellipse(geom = "polygon", alpha = 1/18, aes(fill = VegZone)) + theme_bw() + ggtitle("Beta Diversity (NMDS) by VegZone")
+print(psVegZone)
+
+ps.ord.dca <- ordinate(ps.prune, "DCA")
+psVegZone = plot_ordination(ps.prune, ps.ord.dca, type = "samples", color = "VegZone") + stat_ellipse(geom = "polygon", alpha = 1/18, aes(fill = VegZone)) + theme_bw() + ggtitle("Beta Diversity (DCA) by VegZone")
+print(psVegZone)
+ps.ord.rda <- ordinate(ps.prune, "RDA")
+psVegZone = plot_ordination(ps.prune, ps.ord.rda, type = "samples", color = "VegZone") + stat_ellipse(geom = "polygon", alpha = 1/18, aes(fill = VegZone)) + theme_bw() + ggtitle("Beta Diversity (RDA) by VegZone")
+print(psVegZone)
+
+```
