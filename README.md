@@ -1,9 +1,11 @@
 # Jornada Data Analysis
 
-This is repository for Microbiome analysis for Nicole's data from Jornada(NMSU). 
-Currently, these data are extracted from FC913(16S) and FC1013(ITS) at UCR.
+This is repository for Microbiome analysis for Jornada data analysis lead by Nicole Pietrasiak (NMSU). 
+This supports the publication 
 
-Fred's dataset contains 30 samples.
+Hansen FA, James DK, Anderson J, Meredith C, Dominguez AJ, Pombubpa N, Stajich JE, Romero-Olivares AL, Salley SW, Pietrasiak N. Landscape characteristics shape surface soil microbiomes in the Chihuahuan Desert. Front. Microbiol. - Terrestrial Microbiology. doi:[10.3389/fmicb.2023.1135800](https://doi.org/10.3389/fmicb.2023.1135800)
+
+Currently, these data are extracted from MiSeq flowcells: FC913(16S) and FC1013(ITS) generated at UCR IIGB.
 
 ## Current analysis include
 
